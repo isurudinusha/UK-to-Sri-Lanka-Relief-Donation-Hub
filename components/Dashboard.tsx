@@ -8,9 +8,15 @@ export const Dashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
 
   useEffect(() => {
-    // Simulate loading
-    const data = storageService.getStats();
-    setStats(data);
+    const fetchStats = async () => {
+      try {
+        const data = await storageService.getStats();
+        setStats(data);
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+    fetchStats();
   }, []);
 
   if (!stats) return <div className="p-10 text-center">Loading Hub Data...</div>;
@@ -19,16 +25,16 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      
+
       {/* Hero Header */}
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 via-orange-400 to-red-600"></div>
         <div className="p-8 md:p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Relief Aid Progress</h2>
-            <p className="text-slate-600 max-w-2xl text-lg">
-                Tracking real-time contributions from the UK to support communities in Sri Lanka.
-                Join hundreds of donors making a tangible difference today.
-            </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Relief Aid Progress</h2>
+          <p className="text-slate-600 max-w-2xl text-lg">
+            Tracking real-time contributions from the UK to support communities in Sri Lanka.
+            Join hundreds of donors making a tangible difference today.
+          </p>
         </div>
       </div>
 
@@ -67,7 +73,7 @@ export const Dashboard: React.FC = () => {
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Bar Chart: Weight by Category */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
           <div className="flex justify-between items-center mb-6">
@@ -81,13 +87,13 @@ export const Dashboard: React.FC = () => {
               <BarChart data={stats.categoryBreakdown}>
                 <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
                 <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                <Tooltip 
-                    cursor={{fill: '#f1f5f9'}}
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                <Tooltip
+                  cursor={{ fill: '#f1f5f9' }}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
                 <Bar dataKey="value" fill="#10B981" radius={[4, 4, 0, 0]}>
                   {stats.categoryBreakdown.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${entry.name}-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Bar>
               </BarChart>
@@ -97,35 +103,34 @@ export const Dashboard: React.FC = () => {
 
         {/* Recent Activity Feed */}
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-           <h3 className="text-lg font-bold text-slate-800 flex items-center mb-6">
-              <Clock className="mr-2 text-blue-600" size={20} />
-              Recent Contributions
-            </h3>
-            <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
-                {stats.recentDonations.map((donation) => (
-                    <div key={donation.id} className="flex items-start space-x-3 p-3 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0">
-                        <div className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
-                            donation.status === 'Delivered' ? 'bg-green-500' :
-                            donation.status === 'Shipped' ? 'bg-blue-500' : 'bg-orange-500'
-                        }`} />
-                        <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                                <p className="text-sm font-semibold text-slate-800">{donation.donorName}</p>
-                                <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{donation.status}</span>
-                            </div>
-                            <p className="text-xs text-slate-500 flex items-center mt-1">
-                                <MapPin size={10} className="mr-1" /> {donation.location}
-                            </p>
-                            <p className="text-sm text-slate-600 mt-1 line-clamp-1">{donation.itemsDescription}</p>
-                            {donation.impactMessage && (
-                                <p className="text-xs text-emerald-600 mt-1 italic font-medium">
-                                    "{donation.impactMessage}"
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                ))}
-            </div>
+          <h3 className="text-lg font-bold text-slate-800 flex items-center mb-6">
+            <Clock className="mr-2 text-blue-600" size={20} />
+            Recent Contributions
+          </h3>
+          <div className="space-y-4 max-h-64 overflow-y-auto pr-2">
+            {stats.recentDonations.map((donation) => (
+              <div key={donation.id} className="flex items-start space-x-3 p-3 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0">
+                <div className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${donation.status === 'Delivered' ? 'bg-green-500' :
+                  donation.status === 'Shipped' ? 'bg-blue-500' : 'bg-orange-500'
+                  }`} />
+                <div className="flex-1">
+                  <div className="flex justify-between items-start">
+                    <p className="text-sm font-semibold text-slate-800">{donation.donorName}</p>
+                    <span className="text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{donation.status}</span>
+                  </div>
+                  <p className="text-xs text-slate-500 flex items-center mt-1">
+                    <MapPin size={10} className="mr-1" /> {donation.location}
+                  </p>
+                  <p className="text-sm text-slate-600 mt-1 line-clamp-1">{donation.itemsDescription}</p>
+                  {donation.impactMessage && (
+                    <p className="text-xs text-emerald-600 mt-1 italic font-medium">
+                      "{donation.impactMessage}"
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Dashboard } from './components/Dashboard';
 import { DonationForm } from './components/DonationForm';
 import { MyDonations } from './components/MyDonations';
 import { Login } from './components/Login';
+import { SignUp } from './components/SignUp';
 import { User } from './types';
 import { storageService } from './services/storageService';
 
@@ -23,6 +24,11 @@ const App: React.FC = () => {
     setCurrentPage('dashboard');
   };
 
+  const handleSignUp = (newUser: User) => {
+    setUser(newUser);
+    setCurrentPage('dashboard');
+  };
+
   const handleLogout = () => {
     storageService.logout();
     setUser(null);
@@ -35,17 +41,19 @@ const App: React.FC = () => {
         return <Dashboard />;
       case 'donate':
         return user ? (
-          <DonationForm 
-            user={user} 
-            onSuccess={() => setCurrentPage('my-donations')} 
+          <DonationForm
+            user={user}
+            onSuccess={() => setCurrentPage('my-donations')}
           />
         ) : (
-          <Login onLogin={handleLogin} />
+          <Login onLogin={handleLogin} onNavigateToSignUp={() => setCurrentPage('signup')} />
         );
       case 'my-donations':
-        return user ? <MyDonations user={user} /> : <Login onLogin={handleLogin} />;
+        return user ? <MyDonations user={user} onNavigateToDonate={() => setCurrentPage('donate')} /> : <Login onLogin={handleLogin} onNavigateToSignUp={() => setCurrentPage('signup')} />
       case 'login':
-        return <Login onLogin={handleLogin} />;
+        return <Login onLogin={handleLogin} onNavigateToSignUp={() => setCurrentPage('signup')} />;
+      case 'signup':
+        return <SignUp onSignUp={handleSignUp} onNavigateToLogin={() => setCurrentPage('login')} />;
       default:
         return <Dashboard />;
     }
@@ -53,13 +61,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      <Navbar 
-        user={user} 
-        onLogout={handleLogout} 
+      <Navbar
+        user={user}
+        onLogout={handleLogout}
         currentPage={currentPage}
         onNavigate={setCurrentPage}
       />
-      
+
       <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         {renderContent()}
       </main>

@@ -18,11 +18,10 @@ export const Navbar: React.FC<NavbarProps> = ({ user, onLogout, currentPage, onN
         onNavigate(page);
         setIsMenuOpen(false);
       }}
-      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${
-        currentPage === page
-          ? 'bg-emerald-700 text-white font-medium'
-          : 'text-emerald-100 hover:bg-emerald-800 hover:text-white'
-      }`}
+      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-200 ${currentPage === page
+        ? 'bg-emerald-700 text-white font-medium'
+        : 'text-emerald-100 hover:bg-emerald-800 hover:text-white'
+        }`}
     >
       {Icon && <Icon size={18} />}
       <span>{label}</span>
@@ -33,14 +32,14 @@ export const Navbar: React.FC<NavbarProps> = ({ user, onLogout, currentPage, onN
     <nav className="bg-emerald-900 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          
+
           {/* Logo Section */}
           <div className="flex items-center cursor-pointer" onClick={() => onNavigate('dashboard')}>
             <div className="flex-shrink-0 flex items-center bg-white p-1.5 rounded-full">
-               {/* Simplified Flag Representation */}
-               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 via-orange-500 to-red-800 flex items-center justify-center text-white text-xs font-bold">
-                  LK
-               </div>
+              {/* Simplified Flag Representation */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 via-orange-500 to-red-800 flex items-center justify-center text-white text-xs font-bold">
+                LK
+              </div>
             </div>
             <div className="hidden md:block ml-3">
               <h1 className="text-white font-bold text-lg leading-tight">UK-SL Relief</h1>
