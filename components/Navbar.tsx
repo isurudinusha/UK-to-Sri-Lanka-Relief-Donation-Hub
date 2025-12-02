@@ -36,7 +36,6 @@ export const Navbar: React.FC<NavbarProps> = ({ user, onLogout, currentPage, onN
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('dashboard')}>
             <img src="/logo.png" alt="Logo" className="h-12 w-12 rounded-full object-cover" />
             <div className="flex items-center space-x-2">
-              <Globe className="h-6 w-6 text-emerald-300" />
               <span className="text-white font-bold text-xl hidden sm:block">UK → Sri Lanka Relief</span>
               <span className="text-white font-bold text-xl sm:hidden">Relief Hub</span>
             </div>
