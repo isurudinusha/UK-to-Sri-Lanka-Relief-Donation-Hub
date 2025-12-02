@@ -1,0 +1,7 @@
+{
+  "name": "UK to Sri Lanka Relief Donation Hub",
+  "description": "A centralized portal for coordinating relief aid shipments from the UK to Sri Lanka, featuring donation tracking, impact analysis, and public progress dashboards.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
