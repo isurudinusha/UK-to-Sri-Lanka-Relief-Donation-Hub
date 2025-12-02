@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Package, Users, Weight, TrendingUp, MapPin, Clock } from 'lucide-react';
 import { storageService } from '../services/storageService';
 import { DashboardStats } from '../types';
@@ -26,15 +26,19 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-8 animate-fade-in">
 
-      {/* Hero Header */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 via-orange-400 to-red-600"></div>
-        <div className="p-8 md:p-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Relief Aid Progress</h2>
-          <p className="text-slate-600 max-w-2xl text-lg">
-            Tracking real-time contributions from the UK to support communities in Sri Lanka.
-            Join hundreds of donors making a tangible difference today.
-          </p>
+      {/* Hero Section with Logo Image */}
+      <div className="bg-gradient-to-r from-emerald-600 to-green-700 rounded-2xl shadow-xl overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center">
+          <div className="flex-1 p-8 md:p-12 text-white">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Relief Aid Progress</h1>
+            <p className="text-emerald-50 text-lg mb-6">
+              Tracking real-time contributions from the UK to support communities in Sri Lanka.
+              Join hundreds of donors making a tangible difference today.
+            </p>
+          </div>
+          <div className="flex-1 flex items-center justify-center p-8">
+            <img src="/logo.png" alt="Relief Hub Logo" className="max-w-xs w-full h-auto rounded-full shadow-2xl" />
+          </div>
         </div>
       </div>
 

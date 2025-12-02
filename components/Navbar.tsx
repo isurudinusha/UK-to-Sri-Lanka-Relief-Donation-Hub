@@ -29,21 +29,16 @@ export const Navbar: React.FC<NavbarProps> = ({ user, onLogout, currentPage, onN
   );
 
   return (
-    <nav className="bg-emerald-900 shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-emerald-900 via-emerald-800 to-green-900 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-
-          {/* Logo Section */}
-          <div className="flex items-center cursor-pointer" onClick={() => onNavigate('dashboard')}>
-            <div className="flex-shrink-0 flex items-center bg-white p-1.5 rounded-full">
-              {/* Simplified Flag Representation */}
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-600 via-orange-500 to-red-800 flex items-center justify-center text-white text-xs font-bold">
-                LK
-              </div>
-            </div>
-            <div className="hidden md:block ml-3">
-              <h1 className="text-white font-bold text-lg leading-tight">UK-SL Relief</h1>
-              <p className="text-emerald-300 text-xs">Donation Coordination Hub</p>
+        <div className="flex items-center justify-between h-16">
+          {/* Logo and Brand */}
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => onNavigate('dashboard')}>
+            <img src="/logo.png" alt="Logo" className="h-12 w-12 rounded-full object-cover" />
+            <div className="flex items-center space-x-2">
+              <Globe className="h-6 w-6 text-emerald-300" />
+              <span className="text-white font-bold text-xl hidden sm:block">UK → Sri Lanka Relief</span>
+              <span className="text-white font-bold text-xl sm:hidden">Relief Hub</span>
             </div>
           </div>
 
