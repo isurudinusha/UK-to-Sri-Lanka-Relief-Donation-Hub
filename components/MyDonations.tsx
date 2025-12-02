@@ -77,16 +77,6 @@ export const MyDonations: React.FC<MyDonationsProps> = ({ user, onNavigateToDona
     }
   };
 
-  if (donations.length === 0) {
-    return (
-      <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
-        <Package className="mx-auto h-12 w-12 text-slate-300" />
-        <h3 className="mt-2 text-sm font-medium text-slate-900">No donations yet</h3>
-        <p className="mt-1 text-sm text-slate-500">Get started by creating a new donation.</p>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -107,67 +97,84 @@ export const MyDonations: React.FC<MyDonationsProps> = ({ user, onNavigateToDona
         )}
       </div>
 
-      <div className="grid gap-6">
-        {donations.map((donation) => (
-          <div key={donation.id} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-            <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
+      {donations.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
+          <Package className="mx-auto h-12 w-12 text-slate-300" />
+          <h3 className="mt-2 text-sm font-medium text-slate-900">No donations yet</h3>
+          <p className="mt-1 text-sm text-slate-500">Get started by creating a new donation.</p>
+          {onNavigateToDonate && (
+            <button
+              onClick={onNavigateToDonate}
+              className="mt-4 inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm"
+            >
+              <Plus size={20} />
+              Create Your First Donation
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-6">
+          {donations.map((donation) => (
+            <div key={donation.id} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
 
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(donation.status)} flex items-center gap-1`}>
-                    {getStatusIcon(donation.status)}
-                    {donation.status}
-                  </span>
-                  <span className="text-slate-400 text-sm flex items-center">
-                    <Calendar size={14} className="mr-1" />
-                    {new Date(donation.date).toLocaleDateString()}
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-bold text-slate-800 mb-1">{donation.category} Package</h3>
-                <p className="text-slate-600 mb-3">{donation.itemsDescription}</p>
-
-                <div className="flex items-center gap-4 text-sm text-slate-500">
-                  <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
-                    <Package size={14} className="mr-1" /> {donation.quantity} Units
-                  </span>
-                  <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
-                    <span className="font-bold mr-1">{donation.weightKg}</span> kg
-                  </span>
-                  <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
-                    <MapPin size={14} className="mr-1" /> {donation.location}
-                  </span>
-                </div>
-
-                {donation.impactMessage && (
-                  <div className="mt-4 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-                    <p className="text-sm text-emerald-800 italic">
-                      " {donation.impactMessage} "
-                    </p>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(donation.status)} flex items-center gap-1`}>
+                      {getStatusIcon(donation.status)}
+                      {donation.status}
+                    </span>
+                    <span className="text-slate-400 text-sm flex items-center">
+                      <Calendar size={14} className="mr-1" />
+                      {new Date(donation.date).toLocaleDateString()}
+                    </span>
                   </div>
-                )}
-              </div>
 
-              <div className="flex md:flex-col gap-2">
-                <button
-                  onClick={() => handleEdit(donation)}
-                  className="flex items-center gap-1 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium"
-                >
-                  <Edit size={16} />
-                  Edit
-                </button>
-                <button
-                  onClick={() => setDeletingId(donation.id)}
-                  className="flex items-center gap-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium"
-                >
-                  <Trash2 size={16} />
-                  Delete
-                </button>
+                  <h3 className="text-lg font-bold text-slate-800 mb-1">{donation.category} Package</h3>
+                  <p className="text-slate-600 mb-3">{donation.itemsDescription}</p>
+
+                  <div className="flex items-center gap-4 text-sm text-slate-500">
+                    <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
+                      <Package size={14} className="mr-1" /> {donation.quantity} Units
+                    </span>
+                    <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
+                      <span className="font-bold mr-1">{donation.weightKg}</span> kg
+                    </span>
+                    <span className="flex items-center bg-slate-50 px-2 py-1 rounded">
+                      <MapPin size={14} className="mr-1" /> {donation.location}
+                    </span>
+                  </div>
+
+                  {donation.impactMessage && (
+                    <div className="mt-4 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                      <p className="text-sm text-emerald-800 italic">
+                        " {donation.impactMessage} "
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex md:flex-col gap-2">
+                  <button
+                    onClick={() => handleEdit(donation)}
+                    className="flex items-center gap-1 px-3 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition text-sm font-medium"
+                  >
+                    <Edit size={16} />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setDeletingId(donation.id)}
+                    className="flex items-center gap-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition text-sm font-medium"
+                  >
+                    <Trash2 size={16} />
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Edit Modal */}
       {editingDonation && (
