@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { MapPin, Box, Scale, Layers, Send, Loader2 } from 'lucide-react';
+import { Box, Scale, Layers, Send, Loader2 } from 'lucide-react';
 import { User, Donation, DonationCategory } from '../types';
 import { storageService } from '../services/storageService';
+import { AddressSearch } from './AddressSearch';
 
 interface DonationFormProps {
   user: User;
@@ -62,22 +63,14 @@ export const DonationForm: React.FC<DonationFormProps> = ({ user, onSuccess }) =
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
 
-          {/* Location */}
+          {/* Location with OpenStreetMap Address Search */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">Collection Location (UK)</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MapPin className="h-5 w-5 text-slate-400" />
-              </div>
-              <input
-                type="text"
-                required
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="e.g., 123 Baker St, London"
-                className="block w-full pl-10 pr-3 py-3 border border-slate-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 transition-shadow"
-              />
-            </div>
+            <AddressSearch
+              value={location}
+              onSelectAddress={setLocation}
+              placeholder="Start typing your address..."
+            />
           </div>
 
           {/* Items Description */}
@@ -144,8 +137,8 @@ export const DonationForm: React.FC<DonationFormProps> = ({ user, onSuccess }) =
                   type="button"
                   onClick={() => setCategory(cat)}
                   className={`px-3 py-2 text-sm rounded-md border transition-all ${category === cat
-                      ? 'bg-emerald-100 border-emerald-500 text-emerald-800 font-medium'
-                      : 'bg-white border-slate-200 text-slate-600 hover:border-emerald-300'
+                    ? 'bg-emerald-100 border-emerald-500 text-emerald-800 font-medium'
+                    : 'bg-white border-slate-200 text-slate-600 hover:border-emerald-300'
                     }`}
                 >
                   {cat}
